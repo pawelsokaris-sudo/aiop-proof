@@ -1,0 +1,112 @@
+{
+  "description": "AioP v0.1 canonical test vectors. All implementations MUST produce identical outputs for these inputs.",
+  "version": "0.1",
+  "vectors": {
+    "canonicalization": [
+      {
+        "name": "simple_sorted_keys",
+        "input": {"b": 1, "a": 2},
+        "canonical": "{\"a\":2,\"b\":1}"
+      },
+      {
+        "name": "nested_sorted_keys",
+        "input": {"z": {"b": 1, "a": 2}, "a": 0},
+        "canonical": "{\"a\":0,\"z\":{\"a\":2,\"b\":1}}"
+      },
+      {
+        "name": "number_trailing_zeros",
+        "input": {"val": 1.10},
+        "canonical": "{\"val\":1.1}"
+      },
+      {
+        "name": "integer_stays_integer",
+        "input": {"count": 42},
+        "canonical": "{\"count\":42}"
+      },
+      {
+        "name": "array_preserves_order",
+        "input": {"arr": [3, 1, 2]},
+        "canonical": "{\"arr\":[3,1,2]}"
+      },
+      {
+        "name": "boolean_and_null",
+        "input": {"empty": null, "ok": true, "fail": false},
+        "canonical": "{\"empty\":null,\"fail\":false,\"ok\":true}"
+      },
+      {
+        "name": "string_with_special_chars",
+        "input": {"msg": "hello \"world\"", "path": "a\\b"},
+        "canonical": "{\"msg\":\"hello \\\"world\\\"\",\"path\":\"a\\\\b\"}"
+      },
+      {
+        "name": "empty_object",
+        "input": {},
+        "canonical": "{}"
+      },
+      {
+        "name": "empty_array",
+        "input": {"items": []},
+        "canonical": "{\"items\":[]}"
+      },
+      {
+        "name": "deeply_nested",
+        "input": {"a": {"b": {"c": {"d": 1}}}},
+        "canonical": "{\"a\":{\"b\":{\"c\":{\"d\":1}}}}"
+      },
+      {
+        "name": "mixed_array_types",
+        "input": {"data": [1, "two", null, true, {"z": 1, "a": 2}]},
+        "canonical": "{\"data\":[1,\"two\",null,true,{\"a\":2,\"z\":1}]}"
+      }
+    ],
+    "hashing": [
+      {
+        "name": "empty_object_hash",
+        "input": {},
+        "canonical": "{}",
+        "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+      },
+      {
+        "name": "simple_object_hash",
+        "input": {"b": 1, "a": 2},
+        "canonical": "{\"a\":2,\"b\":1}",
+        "sha256": "7f37c7bba05dcc1a3eec439f3027724a02738cd771219543ca5f2a8e5881406c"
+      }
+    ],
+    "full_proof": [
+      {
+        "name": "basic_step_proof",
+        "contract": {
+          "id": "invoice-reminder",
+          "version": "1.0",
+          "actions": ["send_email"]
+        },
+        "pre_state": {
+          "task": "pending",
+          "attempts": 0
+        },
+        "action": {
+          "type": "send_email",
+          "payload": {
+            "template": "reminder_v1"
+          }
+        },
+        "post_state": {
+          "task": "sent",
+          "attempts": 1
+        },
+        "secret": "test-secret-key-do-not-use-in-production",
+        "timestamp": "2026-03-15T12:00:00.000Z",
+        "proof_id": "test-proof-001",
+        "expected": {
+          "contract_hash": null,
+          "pre_state_hash": null,
+          "post_state_hash": null,
+          "proof_hash": null,
+          "signature": null
+        },
+        "_note": "Expected values will be computed by the reference implementation and back-filled"
+      }
+    ]
+  }
+}
